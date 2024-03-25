@@ -12,7 +12,7 @@ LinkedIn:          https://www.linkedin.com/in/jonathan-pwsh/
 
 param
 (
-    $target = "World"
+    $name = "World"
 )
 
-Write-Host "Hello, $target!"
+Write-Output "Hello, $name!"
