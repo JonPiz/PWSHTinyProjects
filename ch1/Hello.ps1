@@ -10,13 +10,9 @@ LinkedIn:          https://www.linkedin.com/in/jonathan-pwsh/
 
 #>
 
-$userInput = Read-Host "Who would you like to greet? `n"
+param
+(
+    $target = "World"
+)
 
-if ([string]::IsNullOrWhiteSpace($userInput))
-{
-    Write-Host "Hello, World!"
-}
-else
-{
-    Write-Host "Hello, $userInput"
-}
+Write-Host "Hello, $target!"
