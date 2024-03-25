@@ -1,26 +1,56 @@
 Describe "Test for pirate program (Ch2)"{
     BeforeAll{
+        
         $script:program = "$PSScriptRoot\crowsnest.ps1"
+
+        $script:consonantWords = 'brigantine', 'clipper', 'dreadnought', 'frigate', 'galleon', 'haddock',
+        'junk', 'ketch', 'longboat', 'mullet', 'narwhal', 'porpoise', 'quay',
+        'regatta', 'submarine', 'tanker', 'vessel', 'whale', 'xebec', 'yatch',
+        'zebrafish'
+
+        $script:vowelWords = 'aviso', 'eel', 'iceberg', 'octopus', 'upbound'
+        $script:template = 'Ahoy, Captain, {0} {1} off the larboard bow!'  
     }
     
     It "Does Program exist?"{
         Test-Path $program | Should -Be $true
     }
 
-    It "Does Base Case work?"{
-        &$program | Should -BeExactly "Ahoy, I see a thing off the larboard bow!"
-    }
+    It "Does consonant input work?"{
+        foreach ($consonantWord in $script:consonantWords){
+            $actual = &$program $consonantWord
+            $expected = $script:template -f 'a', $consonantWord
 
-    It "Does Input with a consonant work for the spottedObject parameter work?"{
-        foreach ($option in '-s', '-spottedObject'){
-            $cmd = "$program $option kraken"
-            Invoke-Expression $cmd | Should -BeExactly "Ahoy, I see a kraken off the larboard bow!"
+            $actual | Should -BeExactly $expected
         }
     }
-    It "Does Input with a vowel work for the spottedObject parameter work?"{
-        foreach ($option in '-s', '-spottedObject'){
-            $cmd = "$program $option octopus"
-            Invoke-Expression $cmd | Should -BeExactly "Ahoy, I see an octopus off the larboard bow!"
+
+    It "Does an uppercase consonant input work?"{
+        foreach ($consonantWord in $script:consonantWords){
+            $uppercasedWord = (Get-Culture).TextInfo.ToTitleCase($consonantWord)
+            $actual = &$program $uppercasedWord
+            $expected = $script:template -f 'a', $uppercasedWord
+
+            $actual | Should -BeExactly $expected
+        }
+    }
+
+    It "Does vowel input work?"{
+        foreach ($vowelWord in $script:vowelWords){
+            $actual = &$program $vowelWord
+            $expected = $script:template -f 'an', $vowelWord
+
+            $actual | Should -BeExactly $expected
+        }
+    }
+
+    It "Does an uppercase consonant input work?"{
+        foreach ($vowelWord in $script:vowelWords){
+            $uppercasedWord = (Get-Culture).TextInfo.ToTitleCase($vowelWord)
+            $actual = &$program $uppercasedWord
+            $expected = $script:template -f 'an', $uppercasedWord
+
+            $actual | Should -BeExactly $expected
         }
     }
 }

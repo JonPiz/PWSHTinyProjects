@@ -10,7 +10,8 @@ LinkedIn:          https://www.linkedin.com/in/jonathan-pwsh/
 
 #>
 param(
-    [string]$spottedObject = "thing"
+    [Parameter(Mandatory=$true)]
+    [string]$spottedObject
 )
 $vowels = New-Object -TypeName 'System.Collections.Generic.HashSet[char]'
 'aeiou'.ToCharArray() | ForEach-Object { $vowels.Add($_) | Out-Null }
@@ -24,4 +25,4 @@ else {
     $spottedObject = "a $spottedObject"
 }
 
-Write-Output "Ahoy, I see $spottedObject off the larboard bow!"
+Write-Output "Ahoy, Captain, $spottedObject off the larboard bow!"
