@@ -15,6 +15,7 @@ param(
     [switch] $sorted
 )
 $numberOfItems = $items.Length
+# StringBuilder is used because appending strings is more efficient than concatenation
 $templateString = New-Object -TypeName 'System.Text.StringBuilder' -ArgumentList "You are bringing "
 
 # $numberOfItems cannot be less than 1 because of the Mandatory parameter
