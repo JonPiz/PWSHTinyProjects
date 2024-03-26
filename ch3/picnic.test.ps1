@@ -12,4 +12,28 @@ Describe "Tests for the picnic practice (ch3)"{
         $expected = "You are bringing apples."
         $actual | Should -BeExactly $expected
     }
+
+    It "Do two items work?"{
+        $actual = &$program "apples" "bananas"
+        $expected = "You are bringing apples and bananas."
+        $actual | Should -BeExactly $expected
+    }
+    
+    It "Do three items work?"{
+        $actual = &$program "apples" "bananas" "coconuts"
+        $expected = "You are bringing apples, bananas, and coconuts."
+        $actual | Should -BeExactly $expected
+    }
+    
+    It "Does sorting two items work?"{
+        $actual = &$program "bananas" "apples" -sorted
+        $expected = "You are bringing apples and bananas."
+        $actual | Should -BeExactly $expected
+    }
+
+    It "Does sorting three items work?"{
+        $actual = &$program "coconuts" "apples" "bananas" -sorted
+        $expected = "You are bringing apples, bananas, and coconuts."
+        $actual | Should -BeExactly $expected
+    }
 }

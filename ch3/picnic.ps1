@@ -24,7 +24,7 @@ Switch ($numberOfItems){
     2 { [void]$templateString.Append("{0} and {1}.") }
     Default { 
         $finalPlace = $numberOfItems - 1
-        for ($i = 0; $i -lt $finalPlace; $i++ ) { $templateString.Append("{$i}, ") }
+        for ($i = 0; $i -lt $finalPlace; $i++ ) { [void]$templateString.Append("{$i}, ") }
         [void]$templateString.Append("and {$finalPlace}.") 
     }
 }
