@@ -20,12 +20,12 @@ $templateString = New-Object -TypeName 'System.Text.StringBuilder' -ArgumentList
 
 # $numberOfItems cannot be less than 1 because of the Mandatory parameter
 Switch ($numberOfItems){
-    1 { $templateString.Append("{0}.") }
-    2 { $templateString.Append("{0} and {1}.") }
+    1 { [void]$templateString.Append("{0}.") }
+    2 { [void]$templateString.Append("{0} and {1}.") }
     Default { 
-    $finalPlace = $numberOfItems - 1
-    for ($i = 0; $i -lt $finalPlace; $i++ ) { $templateString.Append("{$i}, ") }
-    $templateString.Append("and {$finalPlace}.") 
+        $finalPlace = $numberOfItems - 1
+        for ($i = 0; $i -lt $finalPlace; $i++ ) { $templateString.Append("{$i}, ") }
+        [void]$templateString.Append("and {$finalPlace}.") 
     }
 }
 
@@ -33,4 +33,4 @@ if ($sorted) {
     $items = $items | Sort-Object
 }
 
-$templateString.ToString() -f $items
+($templateString -f $items).ToString()
