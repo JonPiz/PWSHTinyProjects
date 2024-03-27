@@ -11,14 +11,17 @@ LinkedIn:          https://www.linkedin.com/in/jonathan-pwsh/
 #>
 
 param(
-    $inputText,
-    [Parameter(ValueFromRemainingArguments = $false)]
+    [Parameter(Position=0, ValueFromRemainingArguments=$true)]
+    [string[]]$inputText,
+    [Parameter()]
     $outFile
 )
 
-if (Test-Path [string]$inputText)
+$inputText = $inputText -join ' '
+
+if (Test-Path $inputText)
 {
-    $inputText = (Get-Content -Raw [string]$inputText).ToUpper()
+    $inputText = (Get-Content -Raw $inputText).ToUpper()
 }
 else
 {
@@ -27,7 +30,7 @@ else
 
 if ($outFile)
 {
-    $inputText | Out-File -FilePath $outFile 
+    $inputText | Out-File -FilePath $outFile -NoNewline
 }
 else
 {
