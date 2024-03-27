@@ -10,15 +10,26 @@ LinkedIn:          https://www.linkedin.com/in/jonathan-pwsh/
 
 #>
 
-$text = [string]$args
+param(
+    $inputText,
+    [Parameter(ValueFromRemainingArguments = $false)]
+    $outFile
+)
 
-if (Test-Path $text)
+if (Test-Path [string]$inputText)
 {
-    $text = (Get-Content $text).ToUpper()
+    $inputText = (Get-Content -Raw [string]$inputText).ToUpper()
 }
 else
 {
-    $text = $text.ToUpper()
+    $inputText = [string]$inputText.ToUpper()
 }
 
-Write-Output $text
+if ($outFile)
+{
+    $inputText | Out-File -FilePath $outFile 
+}
+else
+{
+    Write-Output $inputText
+}
