@@ -25,7 +25,7 @@ if (Test-Path $inputText)
 }
 else
 {
-    $inputText = [string]$inputText.ToUpper()
+    $inputText = $inputText.ToUpper()
 }
 
 if ($outFile)
