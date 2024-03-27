@@ -10,29 +10,65 @@ LinkedIn:          https://www.linkedin.com/in/jonathan-pwsh/
 
 #>
 
-
 param (
+    [Parameter(ValueFromPipeline = $true)]
     $inputText
 )
 
-$inputText = $inputText -join ' '
+$isFile = Test-Path $inputText
+$textData = @()
 
-$lineCount = 0
-$wordCount = 0
-$charCount = 0
-
-$lines = $inputText -split "`r`n"
-
-
-$lineCount = $lines.Count
-
-foreach ($line in $lines) {
-    $words = $line -split '\s+'
-    $wordCount += $words.Count
-
-    $charCount += $line.Length
+if ($isFile)
+{
+    $textData += Get-ChildItem $inputText
+}
+else
+{
+    $textData += $inputText
 }
 
-Write-Output "Lines: $lineCount"
-Write-Output "Words: $wordCount"
-Write-Output "Characters: $charCount"
+foreach ($data in $textData)
+{
+    $characterCount = 0
+    $wordCount = 0
+    $lineCount = 0
+    $location = 0
+    $content = 0
+
+    if ($isFile)
+    {
+        $content = Get-Content $data
+        $location = Resolve-Path -Path $data -Relative
+    }
+    else
+    {
+        $content = $data
+        $location = '<stdin>'
+    }
+}
+
+Write-Output "File Count: $($textData.Count)"
+Write-Output (Get-Content $textData[0])
+Write-Output (Resolve-Path -Path $textData[0] -Relative)
+
+<#
+if (Test-Path $inputText)
+{
+    foreach ($text in Get-Content $inputText)
+    {
+        Write-Output $text
+        Write-Output $text.Length
+        Write-Output $text.Count
+    }
+    Write-Output $inputText
+    Write-Output $inputText.Length
+    Write-Output $inputText.Count
+}
+function Get-WordCount
+{
+    param (
+        [string]$inputText
+    )
+    $wordCount = $inputText.Split(" ").Count
+    Write-Output $wordCount
+} #>
