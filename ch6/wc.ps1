@@ -50,8 +50,8 @@ foreach ($data in $textData)
         $location = '<stdin>'
     }
     $lineCount = $content.Split("`n").Count
-    $wordCount = $content.Split(" ").Count
-    $characterCount = ($content.Replace(' ', '') -join '' ).Length
+    $wordCount = ([regex]::Split($content, "\W+") | Where-Object {$_}).Count
+    $characterCount = ($content -join ' ').Length
     
     $totalChars += $characterCount
     $totalWords += $wordCount
