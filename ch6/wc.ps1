@@ -15,6 +15,10 @@ param (
     $inputText
 )
 
+$totalChars = 0
+$totalWords = 0
+$totalLines = 0
+
 $isFile = Test-Path $inputText
 $textData = @()
 
@@ -45,30 +49,17 @@ foreach ($data in $textData)
         $content = $data
         $location = '<stdin>'
     }
-}
+    $lineCount = $content.Split("`n").Count
+    $wordCount = $content.Split(" ").Count
+    $characterCount = ($content.Replace(' ', '') -join '' ).Length
+    
+    $totalChars += $characterCount
+    $totalWords += $wordCount
+    $totalLines += $lineCount
 
-Write-Output "File Count: $($textData.Count)"
-Write-Output (Get-Content $textData[0])
-Write-Output (Resolve-Path -Path $textData[0] -Relative)
-
-<#
-if (Test-Path $inputText)
-{
-    foreach ($text in Get-Content $inputText)
-    {
-        Write-Output $text
-        Write-Output $text.Length
-        Write-Output $text.Count
-    }
-    Write-Output $inputText
-    Write-Output $inputText.Length
-    Write-Output $inputText.Count
+    Write-Output ("$lineCount".PadLeft(8) + "$wordCount".PadLeft(8) + "$characterCount".PadLeft(8) + " $location".PadLeft(1))
 }
-function Get-WordCount
+if ($textData.Count -gt 1)
 {
-    param (
-        [string]$inputText
-    )
-    $wordCount = $inputText.Split(" ").Count
-    Write-Output $wordCount
-} #>
+    Write-Output ("$totalLines".PadLeft(8) + "$totalWords".PadLeft(8) + "$totalChars".PadLeft(8) + " total".PadLeft(1))
+}
